@@ -1,0 +1,16 @@
+import { chromium } from "playwright"
+const b = await chromium.launch()
+const ctx = await b.newContext({ reducedMotion: "reduce", viewport: { width: 1440, height: 900 } })
+const p = await ctx.newPage()
+await p.goto("http://localhost:5173/", { waitUntil: "networkidle" })
+await p.waitForTimeout(1200)
+await p.evaluate(() => document.documentElement.classList.add("dark"))
+// scroll to projects + open DRIVE VENTURE modal to check real repo links
+await p.evaluate(() => document.querySelector('[data-project="drive-venture"]')?.scrollIntoView({ block: "start" }))
+await p.waitForTimeout(600)
+await p.screenshot({ path: "/tmp/opencode/shot-projects.png" })
+await p.click('[data-project="drive-venture"]')
+await p.waitForTimeout(400)
+await p.screenshot({ path: "/tmp/opencode/shot-modal.png" })
+await b.close()
+console.log("ok")
