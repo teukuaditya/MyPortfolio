@@ -83,14 +83,20 @@ function cards() {
                data-category="${p.category}" data-project="${p.id}"
                tabindex="0" role="button" aria-haspopup="dialog"
                aria-label="${esc(title(p))} — ${esc(t("projects.caseStudy"))}">
-        <div class="relative h-40 overflow-hidden bg-gradient-to-br
+        <div class="relative h-48 overflow-hidden bg-gradient-to-br
                     ${p.category === "ba" ? "from-accent-600/25 via-transparent to-accent-400/10" : "from-accent-400/20 via-transparent to-accent-700/25"}">
-          <div class="absolute inset-0 grid place-items-center opacity-70">
-            <span class="font-display text-7xl font-bold text-fg/10">${esc(String(title(p)).slice(0, 2).toUpperCase())}</span>
-          </div>
-          <span class="absolute left-4 top-4 chip bg-bg/60!">${icon(p.category === "ba" ? "briefcase" : "code", "h-3.5 w-3.5")} ${esc(catLabel(p.category))}</span>
-          <!-- PLACEHOLDER: replace with a real project screenshot -->
-          <span class="absolute bottom-3 right-4 text-[10px] uppercase tracking-widest text-muted/70">${esc(t("projects.screenshotNote"))}</span>
+          ${p.image ? `
+            <img src="${p.image}" alt="${esc(tx(p.imageAlt) || title(p))}"
+                 loading="lazy" decoding="async"
+                 class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105" />
+            <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg/60 via-transparent to-transparent"></div>
+          ` : `
+            <div class="absolute inset-0 grid place-items-center opacity-70">
+              <span class="font-display text-7xl font-bold text-fg/10">${esc(String(title(p)).slice(0, 2).toUpperCase())}</span>
+            </div>
+            <span class="absolute bottom-3 right-4 text-[10px] uppercase tracking-widest text-muted/70">${esc(t("projects.screenshotNote"))}</span>
+          `}
+          <span class="absolute left-4 top-4 chip bg-bg/80! backdrop-blur-xs">${icon(p.category === "ba" ? "briefcase" : "code", "h-3.5 w-3.5")} ${esc(catLabel(p.category))}</span>
         </div>
         <div class="p-6">
           <h3 class="font-display text-xl font-bold tracking-tight group-hover:text-accent-400 dark:group-hover:text-accent-300">${esc(title(p))}</h3>
@@ -171,6 +177,12 @@ export function openProject(id) {
     </div>
 
     <div class="overflow-y-auto p-7 sm:p-9" style="max-height:min(72vh,640px)">
+      ${p.image ? `
+        <div class="mb-6 overflow-hidden rounded-xl border border-line bg-surface/50 shadow-xs">
+          <img src="${p.image}" alt="${esc(tx(p.imageAlt) || title(p))}"
+               class="max-h-80 w-full object-cover object-top" />
+        </div>
+      ` : ""}
       <dl class="grid gap-4 sm:grid-cols-3">
         <div><dt class="text-xs font-bold uppercase tracking-widest text-muted">${esc(t("projects.role"))}</dt><dd class="mt-1 text-sm font-medium">${esc(tx(p.role))}</dd></div>
         <div><dt class="text-xs font-bold uppercase tracking-widest text-muted">Periode</dt><dd class="mt-1 text-sm font-medium">${esc(p.period)}</dd></div>
