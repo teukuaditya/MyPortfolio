@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://teukuaditya.github.io/sitemap.xml
+Sitemap: https://portfolio-aditya-dcc0.vercel.app/sitemap.xml
